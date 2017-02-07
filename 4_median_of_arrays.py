@@ -76,7 +76,7 @@ class Solution(object):
         # init cut makes num of left part no less than num of right part
         # if the number is odd, comp=0 divides n|n+1; comp=1 divides n+1|n
         # if the number is even, comp=0 or 1 both leads to equal dividing
-        # This is quite ugly for clearity
+        # This is quite ugly ...
         if (l1 % 2 == 1) and (l2 % 2 == 1):
             # odd odd
             cut1 = Cut(nums1, comp=0, min_pos=0, max_pos=l1)
