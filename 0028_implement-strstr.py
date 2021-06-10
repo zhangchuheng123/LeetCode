@@ -17,17 +17,21 @@
 # 可以通过前缀函数来找到这样的 x，x = m - pi[m-1] - 1
 # 前缀函数可以递归找到
 
-# i=0, m=7, pi[6]=3, x=7-3-1=3
-# abcabcd
+# i=0, m=6, pi[6]=3, x=7-3-1=3
+# abcabcabcx
 # abcabcx
 
-# abcabca
+# abcabcabcx
 #    abcabcx
 
 # aaaa
 # aaaaa
 
+# missisippi
+#        pi
+
 # 总结：凡是有 index 的地方都要检查越界！
+# 前缀函数的计算一定要注意，并不是只依赖于前一个，而是要递归依赖前面的
 
 
 class Solution:
@@ -40,8 +44,11 @@ class Solution:
 
         pi = [0]
         for j in range(1, l2):
-            if needle[pi[-1]] == needle[j]:
-                pi.append(pi[-1] + 1)
+            m = pi[-1]
+            while needle[m] != needle[j] and m > 0:
+                m = pi[m-1]
+            if needle[m] == needle[j]:
+                pi.append(m + 1)
             else:
                 pi.append(0)
 
@@ -56,11 +63,20 @@ class Solution:
             elif  i+m == l1:
                 return -1
 
-            if m == 0:
+            if m <= 1:
                 i += 1
+                m = 0
             else:
-                x = m - pi[m-1] - 1
+                x = m - pi[m-1]
                 i = i + x
                 m = pi[m-1]
 
         return -1
+
+if __name__ == '__main__':
+    print(str(Solution().strStr('hello', 'll')) + '=2')
+    print(str(Solution().strStr('aaaa', 'aaaaa')) + '=-1')
+    print(str(Solution().strStr('missisippi', 'pi')) + '=8')
+    print(str(Solution().strStr('abcabcabcx',  'abcabcx')) + '=3')
+    print(str(Solution().strStr('aabaaabaaac', 'aabaaac')) + '=4')
+
